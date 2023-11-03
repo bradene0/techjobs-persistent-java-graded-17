@@ -23,21 +23,17 @@ public class HomeController {
     private EmployerRepository employerRepository;
 
     @Autowired
-    private JobRepository jobRepository;
-
-    @Autowired
     private SkillRepository skillRepository;
 
-    @RequestMapping("")
+    @Autowired
+    private JobRepository jobRepository;
+
+    @RequestMapping("/")
     public String index(Model model) {
 
-        model.addAttribute("title", "My Jobs");
+        model.addAttribute("title", "MyJobs");
+        model.addAttribute("jobs", jobRepository.findAll());
 
-        List jobs = (List<Job>) jobRepository.findAll();
-        model.addAttribute("jobs", jobs );
-        //debug below
-
-        //debug above
         return "index";
     }
 
