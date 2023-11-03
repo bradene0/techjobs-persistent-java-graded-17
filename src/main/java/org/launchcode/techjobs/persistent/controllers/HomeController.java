@@ -35,7 +35,9 @@ public class HomeController {
 
         List jobs = (List<Job>) jobRepository.findAll();
         model.addAttribute("jobs", jobs );
+        //debug below
 
+        //debug above
         return "index";
     }
 
@@ -52,7 +54,8 @@ public class HomeController {
 
     @PostMapping("add")
     public String processAddJobForm(@ModelAttribute @Valid Job newJob,
-                                    Errors errors, Model model, @RequestParam int employerId, @RequestParam List<Integer> skills) {
+                                    Errors errors, Model model, @RequestParam int employerId,
+                                    @RequestParam List<Integer> skills) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Job");
@@ -66,13 +69,17 @@ public class HomeController {
             newJob.setEmployer(employer);
         }
 
+        // Retrieve skill objects from skill IDs
         List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
+
+        // Set the skills for the new job
         newJob.setSkills(skillObjs);
 
         jobRepository.save(newJob);
 
         return "redirect:";
     }
+
 
     @GetMapping("view/{jobId}")
     public String displayViewJob(Model model, @PathVariable int jobId) {
